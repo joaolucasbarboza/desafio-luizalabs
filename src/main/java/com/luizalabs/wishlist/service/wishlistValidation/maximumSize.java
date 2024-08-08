@@ -10,8 +10,8 @@ public class maximumSize implements ValidationWishlist {
 
     @Override
     public void valid(WishlistRequestDTO data) {
-        if (data.projectsId().size() > MAXIMUM_SIZE ) {
-            throw new ValidationException("A wishlist não pode conter mais do que " + MAXIMUM_SIZE + " produtos.");
-        }
+//        if (data.projectsId().size() > MAXIMUM_SIZE ) {
+//            throw new ValidationException("A wishlist não pode conter mais do que " + MAXIMUM_SIZE + " produtos.");
+//        }
     }
 }

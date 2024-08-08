@@ -3,13 +3,9 @@ package com.luizalabs.wishlist.controller;
 import com.luizalabs.wishlist.entity.WishlistEntity;
 import com.luizalabs.wishlist.repository.WishlistRepository;
 import com.luizalabs.wishlist.request.WishlistRequestDTO;
-import jakarta.validation.Valid;
+import com.luizalabs.wishlist.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/wishlist")
@@ -18,12 +14,14 @@ public class WishlistController {
     @Autowired
     private WishlistRepository wishlistRepository;
 
+    @Autowired
+    private WishlistService wishlistService;
+
     @PostMapping()
-    @Transactional
-    public ResponseEntity toAdd(@RequestBody @Valid WishlistRequestDTO data) {
+    public WishlistEntity toAdd(@RequestBody WishlistRequestDTO wishlistRequestDTO) {
 
-        List<WishlistEntity> newProducts = wishlistRepository.findAllById(data.projectsId());
+        System.out.println(wishlistRequestDTO);
 
-        return ResponseEntity.ok(newProducts);
+        return this.wishlistService.add(wishlistRequestDTO);
     }
 }

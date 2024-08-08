@@ -1,7 +1,11 @@
 package com.luizalabs.wishlist.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -9,14 +13,15 @@ import java.util.List;
 
 @Data
 @Document(collection = "wishlist")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
 public class WishlistEntity {
 
     @Id
     private String id;
-    private List<ProductEntity> produtos = new ArrayList<>();
+
+    @DBRef
+    private List<ProductEntity> productsId = new ArrayList<>();
 
 }

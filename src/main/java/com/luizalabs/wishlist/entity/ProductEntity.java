@@ -16,5 +16,5 @@ public class ProductEntity {
 
     @Id
     private String id;
-    private String nome;
+    private String name;
 }
