@@ -6,7 +6,7 @@ import com.luizalabs.wishlist.service.ValidationWishlist;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MaximumSize implements ValidationWishlist {
+public class ValidationMaximumSizeWishlist implements ValidationWishlist {
 
     private static final int MAXIMUM_SIZE = 20;
 
