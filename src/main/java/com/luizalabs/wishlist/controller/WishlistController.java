@@ -17,11 +17,8 @@ public class WishlistController {
     @Autowired
     private WishlistService wishlistService;
 
-    @PostMapping()
-    public WishlistEntity toAdd(@RequestBody WishlistRequestDTO wishlistRequestDTO) {
-
-        System.out.println(wishlistRequestDTO);
-
-        return this.wishlistService.add(wishlistRequestDTO);
+    @PostMapping("/{id}")
+    public WishlistEntity toAdd(@PathVariable String id) {
+        return wishlistService.add(id);
     }
 }
