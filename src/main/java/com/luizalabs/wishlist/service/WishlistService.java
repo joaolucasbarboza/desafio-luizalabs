@@ -5,5 +5,5 @@ import com.luizalabs.wishlist.request.WishlistRequestDTO;
 
 public interface WishlistService {
 
-    public WishlistEntity add(WishlistRequestDTO wishlistRequestDTO);
+    public WishlistEntity add(String productId);
 }
