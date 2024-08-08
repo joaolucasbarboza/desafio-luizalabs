@@ -12,9 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProdutoEntity {
+public class ProductEntity {
 
     @Id
-    private Long id;
+    private String id;
     private String nome;
 }
