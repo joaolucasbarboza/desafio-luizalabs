@@ -10,10 +10,10 @@ import com.luizalabs.wishlist.repository.WishlistRepository;
 import com.luizalabs.wishlist.service.ValidationWishlist;
 import com.luizalabs.wishlist.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WishlistServiceImpl implements WishlistService {
@@ -33,7 +33,7 @@ public class WishlistServiceImpl implements WishlistService {
         var product = findProductById(productId);
         var wishlist = wishlistExists();
 
-        productExistsOnWishlist(productId, wishlist);
+        productExistsOnWishlistException(productId, wishlist);
         validationWishlists.forEach(v -> v.valid(wishlist));
 
         wishlist.getProductsId().add(product);
@@ -60,7 +60,14 @@ public class WishlistServiceImpl implements WishlistService {
         return wishlistExists();
     }
 
-    protected void productExistsOnWishlist(String productId, WishlistEntity wishlist) {
+    @Override
+    public WishlistEntity getById(String productId) {
+        var wishlist = wishlistExists();
+
+        return productExistsOnWishlist(productId, wishlist);
+    }
+
+    protected void productExistsOnWishlistException(String productId, WishlistEntity wishlist) {
         for (ProductEntity product : wishlist.getProductsId()) {
             if (product.getId().equals(productId)) {
                 throw new ExistsProductOnWishlistExeception();
@@ -68,10 +75,25 @@ public class WishlistServiceImpl implements WishlistService {
         }
     }
 
+    protected WishlistEntity productExistsOnWishlist(String productId, WishlistEntity wishlist) {
+
+        List<ProductEntity> matchedProducts = wishlist.getProductsId().stream()
+                .filter(product -> product.getId().equals(productId))
+                .collect(Collectors.toList());
+
+        if (matchedProducts.isEmpty()) {
+            throw new ProductNotExistsOnWishlistException();
+        }
+
+        wishlist.setProductsId(matchedProducts);
+        return wishlist;
+    }
+
     protected WishlistEntity wishlistExists() {
         return wishlistRepository.findById("66b4eefff40c3c8dbd7f50ef")
                 .orElseThrow(WishlistNotFoundException::new);
     }
+
 
     protected ProductEntity findProductById(String productId) {
         return productRepository.findById(productId)

@@ -28,4 +28,9 @@ public class WishlistController {
     public WishlistEntity getAll() {
         return wishlistService.getAll();
     }
+
+    @GetMapping("/{id}")
+    public WishlistEntity getById(@PathVariable String id) {
+        return wishlistService.getById(id);
+    }
 }
