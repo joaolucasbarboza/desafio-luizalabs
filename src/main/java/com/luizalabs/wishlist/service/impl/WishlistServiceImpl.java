@@ -2,6 +2,7 @@ package com.luizalabs.wishlist.service.impl;
 import com.luizalabs.wishlist.entity.ProductEntity;
 import com.luizalabs.wishlist.entity.WishlistEntity;
 import com.luizalabs.wishlist.exceptions.ExistsProductOnWishlist;
+import com.luizalabs.wishlist.exceptions.ProductNotExistsOnWishlist;
 import com.luizalabs.wishlist.exceptions.ProductNotFoundException;
 import com.luizalabs.wishlist.exceptions.WishlistNotFoundException;
 import com.luizalabs.wishlist.repository.ProductRepository;
@@ -48,7 +49,7 @@ public class WishlistServiceImpl implements WishlistService {
                 .anyMatch(prod -> prod.getId().equals(productId));
 
         if (!productExists) {
-            throw new RuntimeException("Product not exists in Wishlist.");
+            throw new ProductNotExistsOnWishlist();
         }
 
         return null;
