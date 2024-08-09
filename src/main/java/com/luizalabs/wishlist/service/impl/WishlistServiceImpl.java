@@ -2,6 +2,7 @@ package com.luizalabs.wishlist.service.impl;
 import com.luizalabs.wishlist.entity.ProductEntity;
 import com.luizalabs.wishlist.entity.WishlistEntity;
 import com.luizalabs.wishlist.exceptions.ExistsProductOnWishlist;
+import com.luizalabs.wishlist.exceptions.ProductNotExistsOnWishlist;
 import com.luizalabs.wishlist.exceptions.ProductNotFoundException;
 import com.luizalabs.wishlist.exceptions.WishlistNotFoundException;
 import com.luizalabs.wishlist.repository.ProductRepository;
@@ -28,22 +29,46 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     public WishlistEntity add(String productId) {
 
-        var product = productRepository.findById(productId)
-                .orElseThrow(ProductNotFoundException::new);
+        var product = findProductById(productId);
+        var wishlist = wishlistExists();
 
-        var wishlist = wishlistRepository.findById("66b4eefff40c3c8dbd7f50ef")
-                .orElseThrow(WishlistNotFoundException::new);
-
-        for (ProductEntity prod : wishlist.getProductsId()) {
-            if (prod.getId().equals(productId)) {
-                throw new ExistsProductOnWishlist();
-            }
-        }
-
+        productExistsOnWishlist(productId, wishlist);
         validationWishlists.forEach(v -> v.valid(wishlist));
 
         wishlist.getProductsId().add(product);
 
         return this.wishlistRepository.save(wishlist);
+    }
+
+    @Override
+    public WishlistEntity deleteById(String productId) {
+
+        var wishlist = wishlistExists();
+
+        boolean productRemoved = wishlist.getProductsId().removeIf(prod -> prod.getId().equals(productId));
+
+        if (!productRemoved) {
+            throw new ProductNotExistsOnWishlist();
+        }
+
+        return this.wishlistRepository.save(wishlist);
+    }
+
+    protected void productExistsOnWishlist(String productId, WishlistEntity wishlist) {
+        for (ProductEntity product : wishlist.getProductsId()) {
+            if (product.getId().equals(productId)) {
+                throw new ExistsProductOnWishlist();
+            }
+        }
+    }
+
+    protected WishlistEntity wishlistExists() {
+        return wishlistRepository.findById("66b4eefff40c3c8dbd7f50ef")
+                .orElseThrow(WishlistNotFoundException::new);
+    }
+
+    protected ProductEntity findProductById(String productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(ProductNotFoundException::new);
     }
 }

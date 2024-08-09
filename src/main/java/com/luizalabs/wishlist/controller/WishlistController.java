@@ -1,8 +1,6 @@
 package com.luizalabs.wishlist.controller;
 
 import com.luizalabs.wishlist.entity.WishlistEntity;
-import com.luizalabs.wishlist.repository.WishlistRepository;
-import com.luizalabs.wishlist.request.WishlistRequestDTO;
 import com.luizalabs.wishlist.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,5 +15,10 @@ public class WishlistController {
     @PostMapping("/{id}")
     public WishlistEntity toAdd(@PathVariable String id) {
         return wishlistService.add(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public WishlistEntity delete(@PathVariable String id) {
+        return wishlistService.deleteById(id);
     }
 }
