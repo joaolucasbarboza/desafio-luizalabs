@@ -18,7 +18,7 @@ public class WishlistController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) {
+    public WishlistEntity delete(@PathVariable String id) {
         return wishlistService.deleteById(id);
     }
 }
