@@ -31,14 +31,9 @@ public class WishlistServiceImpl implements WishlistService {
         var product = productRepository.findById(productId)
                 .orElseThrow(ProductNotFoundException::new);
 
-        var wishlist = wishlistRepository.findById("66b4eefff40c3c8dbd7f50ef")
-                .orElseThrow(WishlistNotFoundException::new);
+        var wishlist = wishlistExists();
 
-        for (ProductEntity prod : wishlist.getProductsId()) {
-            if (prod.getId().equals(productId)) {
-                throw new ExistsProductOnWishlist();
-            }
-        }
+        productExistsOnWishlist(productId, wishlist);
 
         validationWishlists.forEach(v -> v.valid(wishlist));
 
@@ -46,4 +41,32 @@ public class WishlistServiceImpl implements WishlistService {
 
         return this.wishlistRepository.save(wishlist);
     }
+
+    @Override
+    public WishlistEntity deleteById(String productId) {
+
+        var wishlist = wishlistExists();
+
+        for (ProductEntity prod : wishlist.getProductsId()) {
+            if (prod.getId().equals(productId)) {
+                throw new RuntimeException("Product not exists in Wishlist.");
+            }
+        }
+
+        return null;
+    }
+
+    protected WishlistEntity wishlistExists() {
+        return wishlistRepository.findById("66b4eefff40c3c8dbd7f50ef")
+                .orElseThrow(WishlistNotFoundException::new);
+    }
+
+    protected void productExistsOnWishlist(String productId, WishlistEntity wishlist) {
+        for (ProductEntity product : wishlist.getProductsId()) {
+            if (product.getId().equals(productId)) {
+                throw new ExistsProductOnWishlist();
+            }
+        }
+    }
+
 }
