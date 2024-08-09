@@ -1,8 +1,8 @@
 package com.luizalabs.wishlist.service.impl;
 import com.luizalabs.wishlist.entity.ProductEntity;
 import com.luizalabs.wishlist.entity.WishlistEntity;
-import com.luizalabs.wishlist.exceptions.ExistsProductOnWishlist;
-import com.luizalabs.wishlist.exceptions.ProductNotExistsOnWishlist;
+import com.luizalabs.wishlist.exceptions.ExistsProductOnWishlistExeception;
+import com.luizalabs.wishlist.exceptions.ProductNotExistsOnWishlistException;
 import com.luizalabs.wishlist.exceptions.ProductNotFoundException;
 import com.luizalabs.wishlist.exceptions.WishlistNotFoundException;
 import com.luizalabs.wishlist.repository.ProductRepository;
@@ -48,7 +48,7 @@ public class WishlistServiceImpl implements WishlistService {
         boolean productRemoved = wishlist.getProductsId().removeIf(prod -> prod.getId().equals(productId));
 
         if (!productRemoved) {
-            throw new ProductNotExistsOnWishlist();
+            throw new ProductNotExistsOnWishlistException();
         }
 
         return this.wishlistRepository.save(wishlist);
@@ -57,7 +57,7 @@ public class WishlistServiceImpl implements WishlistService {
     protected void productExistsOnWishlist(String productId, WishlistEntity wishlist) {
         for (ProductEntity product : wishlist.getProductsId()) {
             if (product.getId().equals(productId)) {
-                throw new ExistsProductOnWishlist();
+                throw new ExistsProductOnWishlistExeception();
             }
         }
     }

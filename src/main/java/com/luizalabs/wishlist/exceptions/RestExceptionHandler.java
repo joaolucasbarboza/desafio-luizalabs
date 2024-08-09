@@ -15,14 +15,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
-    @ExceptionHandler(ExistsProductOnWishlist.class)
-    private ResponseEntity<RestErrorMessage> productNotFoundHandler(ExistsProductOnWishlist exception) {
+    @ExceptionHandler(ExistsProductOnWishlistExeception.class)
+    private ResponseEntity<RestErrorMessage> productNotFoundHandler(ExistsProductOnWishlistExeception exception) {
         RestErrorMessage errorMessage = new RestErrorMessage(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage());
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMessage);
     }
 
-    @ExceptionHandler(ProductNotExistsOnWishlist.class)
-    private ResponseEntity<RestErrorMessage> productNotFoundHandler(ProductNotExistsOnWishlist exception) {
+    @ExceptionHandler(ProductNotExistsOnWishlistException.class)
+    private ResponseEntity<RestErrorMessage> productNotFoundHandler(ProductNotExistsOnWishlistException exception) {
         RestErrorMessage errorMessage = new RestErrorMessage(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage());
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMessage);
     }
