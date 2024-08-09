@@ -10,6 +10,7 @@ import com.luizalabs.wishlist.repository.WishlistRepository;
 import com.luizalabs.wishlist.service.ValidationWishlist;
 import com.luizalabs.wishlist.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,6 +55,11 @@ public class WishlistServiceImpl implements WishlistService {
         return this.wishlistRepository.save(wishlist);
     }
 
+    @Override
+    public WishlistEntity getAll() {
+        return wishlistExists();
+    }
+
     protected void productExistsOnWishlist(String productId, WishlistEntity wishlist) {
         for (ProductEntity product : wishlist.getProductsId()) {
             if (product.getId().equals(productId)) {
@@ -71,4 +77,6 @@ public class WishlistServiceImpl implements WishlistService {
         return productRepository.findById(productId)
                 .orElseThrow(ProductNotFoundException::new);
     }
+
+
 }

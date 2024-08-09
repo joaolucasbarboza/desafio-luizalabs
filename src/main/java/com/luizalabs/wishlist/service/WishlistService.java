@@ -6,4 +6,5 @@ public interface WishlistService {
 
     public WishlistEntity add(String productId);
     public WishlistEntity deleteById(String productId);
+    public WishlistEntity getAll();
 }

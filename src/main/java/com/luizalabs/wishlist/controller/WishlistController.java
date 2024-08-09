@@ -5,6 +5,8 @@ import com.luizalabs.wishlist.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/wishlist")
 public class WishlistController {
@@ -20,5 +22,10 @@ public class WishlistController {
     @DeleteMapping("/{id}")
     public WishlistEntity delete(@PathVariable String id) {
         return wishlistService.deleteById(id);
+    }
+
+    @GetMapping
+    public WishlistEntity getAll() {
+        return wishlistService.getAll();
     }
 }
