@@ -28,13 +28,10 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     public WishlistEntity add(String productId) {
 
-        var product = productRepository.findById(productId)
-                .orElseThrow(ProductNotFoundException::new);
-
+        var product = findProductById(productId);
         var wishlist = wishlistExists();
 
         productExistsOnWishlist(productId, wishlist);
-
         validationWishlists.forEach(v -> v.valid(wishlist));
 
         wishlist.getProductsId().add(product);
@@ -47,10 +44,11 @@ public class WishlistServiceImpl implements WishlistService {
 
         var wishlist = wishlistExists();
 
-        for (ProductEntity prod : wishlist.getProductsId()) {
-            if (prod.getId().equals(productId)) {
-                throw new RuntimeException("Product not exists in Wishlist.");
-            }
+        boolean productExists = wishlist.getProductsId().stream()
+                .anyMatch(prod -> prod.getId().equals(productId));
+
+        if (!productExists) {
+            throw new RuntimeException("Product not exists in Wishlist.");
         }
 
         return null;
@@ -69,4 +67,8 @@ public class WishlistServiceImpl implements WishlistService {
         }
     }
 
+    protected ProductEntity findProductById(String productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(ProductNotFoundException::new);
+    }
 }
