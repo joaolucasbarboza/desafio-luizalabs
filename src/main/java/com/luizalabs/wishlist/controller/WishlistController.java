@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 public class WishlistController {
 
     @Autowired
-    private WishlistRepository wishlistRepository;
-
-    @Autowired
     private WishlistService wishlistService;
 
     @PostMapping("/{id}")
