@@ -90,8 +90,14 @@ public class WishlistServiceImpl implements WishlistService {
     }
 
     protected WishlistEntity wishlistExists() {
-        return wishlistRepository.findById("66b4eefff40c3c8dbd7f50ef")
-                .orElseThrow(WishlistNotFoundException::new);
+        return wishlistRepository.findAll().stream().findFirst()
+                .orElseGet(() -> {
+
+                    WishlistEntity newWishlist = new WishlistEntity();
+                    wishlistRepository.save(newWishlist);
+
+                    return newWishlist;
+                });
     }
 
 
