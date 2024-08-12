@@ -10,6 +10,20 @@
 
 </div>
 
+## Execute para criar a imagem da aplicação
+
+Para criar a imagem da aplicação, execute o seguinte comando:
+
+```
+  docker build -t wishlist .
+```
+
+Para iniciar o container com o banco de dados MongoDB na versão 7.0, execute:
+
+```
+  docker-compose up -d
+```
+
 ## Documentação da API
 
 ### Cria um produto
