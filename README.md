@@ -10,7 +10,7 @@
 
 </div>
 
-## Execute para criar a imagem da aplicação
+## Execute para criar o container da aplicação
 
 Para criar a imagem da aplicação, execute o seguinte comando:
 
