@@ -4,9 +4,10 @@ import com.luizalabs.wishlist.entity.WishlistEntity;
 import com.luizalabs.wishlist.exceptions.ExistsProductOnWishlistExeception;
 import com.luizalabs.wishlist.exceptions.ProductNotExistsOnWishlistException;
 import com.luizalabs.wishlist.exceptions.ProductNotFoundException;
-import com.luizalabs.wishlist.exceptions.WishlistNotFoundException;
+import com.luizalabs.wishlist.exceptions.WishlistFullSizeException;
 import com.luizalabs.wishlist.repository.ProductRepository;
 import com.luizalabs.wishlist.repository.WishlistRepository;
+import com.luizalabs.wishlist.response.WishlistDTO;
 import com.luizalabs.wishlist.service.ValidationWishlist;
 import com.luizalabs.wishlist.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,16 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     public WishlistEntity add(String productId) {
 
+        final int MAXIMUM_SIZE = 20;
+
         var product = findProductById(productId);
         var wishlist = wishlistExists();
 
         productExistsOnWishlistException(productId, wishlist);
-        validationWishlists.forEach(v -> v.valid(wishlist));
+
+        if (wishlist.getProductsId().size() >= MAXIMUM_SIZE) {
+            throw new WishlistFullSizeException();
+        }
 
         wishlist.getProductsId().add(product);
 
@@ -67,7 +73,7 @@ public class WishlistServiceImpl implements WishlistService {
         return productExistsOnWishlist(productId, wishlist);
     }
 
-    protected void productExistsOnWishlistException(String productId, WishlistEntity wishlist) {
+    public void productExistsOnWishlistException(String productId, WishlistEntity wishlist) {
         for (ProductEntity product : wishlist.getProductsId()) {
             if (product.getId().equals(productId)) {
                 throw new ExistsProductOnWishlistExeception();
@@ -75,7 +81,7 @@ public class WishlistServiceImpl implements WishlistService {
         }
     }
 
-    protected WishlistEntity productExistsOnWishlist(String productId, WishlistEntity wishlist) {
+    public WishlistEntity productExistsOnWishlist(String productId, WishlistEntity wishlist) {
 
         List<ProductEntity> matchedProducts = wishlist.getProductsId().stream()
                 .filter(product -> product.getId().equals(productId))
@@ -89,8 +95,8 @@ public class WishlistServiceImpl implements WishlistService {
         return wishlist;
     }
 
-    protected WishlistEntity wishlistExists() {
-        return wishlistRepository.findAll().stream().findFirst()
+    public WishlistEntity wishlistExists() {
+        return  wishlistRepository.findAll().stream().findFirst()
                 .orElseGet(() -> {
 
                     WishlistEntity newWishlist = new WishlistEntity();
@@ -99,7 +105,6 @@ public class WishlistServiceImpl implements WishlistService {
                     return newWishlist;
                 });
     }
-
 
     protected ProductEntity findProductById(String productId) {
         return productRepository.findById(productId)
