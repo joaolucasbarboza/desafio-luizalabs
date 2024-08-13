@@ -7,8 +7,6 @@ import com.luizalabs.wishlist.exceptions.ProductNotFoundException;
 import com.luizalabs.wishlist.exceptions.WishlistFullSizeException;
 import com.luizalabs.wishlist.repository.ProductRepository;
 import com.luizalabs.wishlist.repository.WishlistRepository;
-import com.luizalabs.wishlist.response.WishlistDTO;
-import com.luizalabs.wishlist.service.ValidationWishlist;
 import com.luizalabs.wishlist.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +22,6 @@ public class WishlistServiceImpl implements WishlistService {
 
     @Autowired
     ProductRepository productRepository;
-
-    @Autowired
-    private List<ValidationWishlist> validationWishlists;
 
     @Override
     public WishlistEntity add(String productId) {
