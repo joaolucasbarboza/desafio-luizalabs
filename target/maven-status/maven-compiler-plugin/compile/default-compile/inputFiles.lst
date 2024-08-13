@@ -14,8 +14,6 @@
 /Users/joaobarboza/Desktop/wishlist/src/main/java/com/luizalabs/wishlist/repository/WishlistRepository.java
 /Users/joaobarboza/Desktop/wishlist/src/main/java/com/luizalabs/wishlist/response/WishlistDTO.java
 /Users/joaobarboza/Desktop/wishlist/src/main/java/com/luizalabs/wishlist/service/ProductService.java
-/Users/joaobarboza/Desktop/wishlist/src/main/java/com/luizalabs/wishlist/service/ValidationWishlist.java
 /Users/joaobarboza/Desktop/wishlist/src/main/java/com/luizalabs/wishlist/service/WishlistService.java
 /Users/joaobarboza/Desktop/wishlist/src/main/java/com/luizalabs/wishlist/service/impl/ProductServiceImpl.java
 /Users/joaobarboza/Desktop/wishlist/src/main/java/com/luizalabs/wishlist/service/impl/WishlistServiceImpl.java
-/Users/joaobarboza/Desktop/wishlist/src/main/java/com/luizalabs/wishlist/service/wishlistValidation/ValidationMaximumSizeWishlist.java
