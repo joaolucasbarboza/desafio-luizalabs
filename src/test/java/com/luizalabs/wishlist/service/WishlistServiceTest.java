@@ -37,7 +37,7 @@ class WishlistServiceTest {
     @Mock
     ProductRepository productRepository;
 
-    private static List<ProductEntity> createProductEntities(int quantity) {
+    private static WishlistEntity createProductOnWishllistEntities(int quantity) {
 
         List<ProductEntity> productEntities = new ArrayList<>();
 
@@ -45,30 +45,26 @@ class WishlistServiceTest {
             productEntities.add(new ProductEntity("produto" + i, "Product " + i));
         }
 
-        return productEntities;
+        return new WishlistEntity("wishlist1", productEntities);
     }
 
     @Test
     @DisplayName("Deve retornar uma wishlist com todos os produtos")
     public void shouldReturnAWishlistWithAllProducts() {
 
-        List<ProductEntity> productEntities = createProductEntities(2);
-
-        WishlistEntity wishlistEntity = new WishlistEntity("wishlist1", productEntities);
+        WishlistEntity wishlistEntity = createProductOnWishllistEntities(2);
 
         when(wishlistRepository.findAll())
                 .thenReturn(List.of(wishlistEntity));
 
-        assertEquals(wishlistService.getAll(), wishlistEntity);
+        assertEquals(wishlistEntity, wishlistService.getAll());
     }
 
     @Test
     @DisplayName("Deve lançar exceção quando existir produto na lista.")
     void shouldThrowExceptionWhenProductExistsInWishlist() {
 
-        List<ProductEntity> productEntities = createProductEntities(3);
-
-        WishlistEntity wishlistEntity = new WishlistEntity("wishlist1", productEntities);
+        WishlistEntity wishlistEntity = createProductOnWishllistEntities(3);
 
         lenient().when(wishlistRepository.findById("wishlist1"))
                 .thenReturn(Optional.of(wishlistEntity));
@@ -82,9 +78,7 @@ class WishlistServiceTest {
     @DisplayName("Deve lançar exceção quando não existir produto na lista.")
     void shouldThrowExceptionProductNotFoundOnWishlist() {
 
-        List<ProductEntity> productEntities = createProductEntities(2);
-
-        WishlistEntity wishlistEntity = new WishlistEntity("wishlist1", productEntities);
+        WishlistEntity wishlistEntity = createProductOnWishllistEntities(2);
 
         lenient().when(wishlistRepository.findById("wishlist1"))
                 .thenReturn(Optional.of(wishlistEntity));
@@ -99,9 +93,8 @@ class WishlistServiceTest {
     void ShouldThrowExceptionWhenWishlistIsFull() {
         final int maxProducts = 20;
 
-        List<ProductEntity> productEntities = createProductEntities(maxProducts);
+        WishlistEntity wishlistEntity = createProductOnWishllistEntities(maxProducts);
 
-        WishlistEntity wishlistEntity = new WishlistEntity("wishlist1", productEntities);
         when(wishlistRepository.findAll())
                 .thenReturn(List.of(wishlistEntity));
 
@@ -119,9 +112,8 @@ class WishlistServiceTest {
     @Test
     @DisplayName("Deve buscar o produto pelo id na wishlist.")
     void shouldReturnProduct() {
-        List<ProductEntity> productEntities = createProductEntities(2);
 
-        WishlistEntity wishlistEntity = new WishlistEntity("wishlist1", productEntities);
+        WishlistEntity wishlistEntity = createProductOnWishllistEntities(2);
 
         when(wishlistRepository.findAll())
                 .thenReturn(List.of(wishlistEntity));
@@ -133,9 +125,7 @@ class WishlistServiceTest {
     @DisplayName("Deve fazer a exclusão do produto pelo id na Wishlist")
     void youMustDeleteTheProductByIdInTheWishlist() {
 
-        List<ProductEntity> productEntities = createProductEntities(2);
-
-        WishlistEntity wishlistEntity = new WishlistEntity("wishlist1", productEntities);
+        WishlistEntity wishlistEntity = createProductOnWishllistEntities(2);
 
         when(wishlistRepository.findAll())
                 .thenReturn(List.of(wishlistEntity));
