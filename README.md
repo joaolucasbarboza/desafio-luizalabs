@@ -10,6 +10,24 @@
 
 </div>
 
+## Execute para criar o container da aplicação
+
+Para criar a imagem da aplicação, execute o seguinte comando:
+
+```
+  docker build -t wishlist .
+```
+
+Para iniciar o container com o banco de dados MongoDB na versão 7.0, execute:
+
+```
+  docker-compose up -d
+```
+Se preferir executar a aplicação diretamente na máquina, certifique-se de ter o MongoDB 7.0 e a JDK instalados.
+
+	1.	Navegue até src > main > resources > application.properties.
+	2.	Altere a propriedade spring.data.mongodb.host=db para localhost.
+
 ## Documentação da API
 
 ### Cria um produto
