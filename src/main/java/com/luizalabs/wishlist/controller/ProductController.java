@@ -1,6 +1,8 @@
 package com.luizalabs.wishlist.controller;
 
 import com.luizalabs.wishlist.entity.ProductEntity;
+import com.luizalabs.wishlist.response.ProductDTO;
+import com.luizalabs.wishlist.response.WishlistDTO;
 import com.luizalabs.wishlist.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +19,10 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping()
-    public ResponseEntity<ProductEntity> addProduct(@RequestBody ProductEntity product) {
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductEntity product) {
 
         ProductEntity productEntity = productService.add(product);
 
-        return ResponseEntity.ok().body(productEntity);
+        return ResponseEntity.ok().body(new ProductDTO(productEntity));
     }
 }
