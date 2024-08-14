@@ -1,2 +1,5 @@
-com/luizalabs/wishlist/WishlistApplicationTests.class
 com/luizalabs/wishlist/service/WishlistServiceTest.class
+stepdefinitions/WishlistStep.class
+com/luizalabs/wishlist/WishlistApplicationTests.class
+stepdefinitions/StepDefsDefault.class
+stepdefinitions/RunCucumberTest.class

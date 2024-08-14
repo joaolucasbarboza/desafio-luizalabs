@@ -1,2 +1,5 @@
 /Users/joaobarboza/Desktop/wishlist/src/test/java/com/luizalabs/wishlist/WishlistApplicationTests.java
 /Users/joaobarboza/Desktop/wishlist/src/test/java/com/luizalabs/wishlist/service/WishlistServiceTest.java
+/Users/joaobarboza/Desktop/wishlist/src/test/java/stepdefinitions/RunCucumberTest.java
+/Users/joaobarboza/Desktop/wishlist/src/test/java/stepdefinitions/StepDefsDefault.java
+/Users/joaobarboza/Desktop/wishlist/src/test/java/stepdefinitions/WishlistStep.java

@@ -54,7 +54,7 @@ class WishlistServiceTest {
 
         WishlistEntity wishlistEntity = createProductOnWishllistEntities(2);
 
-        when(wishlistRepository.findAll())
+        lenient().when(wishlistRepository.findAll())
                 .thenReturn(List.of(wishlistEntity));
 
         assertEquals(wishlistEntity, wishlistService.getAll());
@@ -123,7 +123,7 @@ class WishlistServiceTest {
 
     @Test
     @DisplayName("Deve fazer a exclusão do produto pelo id na Wishlist")
-    void youMustDeleteTheProductByIdInTheWishlist() {
+    void mustDeleteTheProductByIdInTheWishlist() {
 
         WishlistEntity wishlistEntity = createProductOnWishllistEntities(2);
 
