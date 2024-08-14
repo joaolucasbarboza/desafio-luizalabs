@@ -23,6 +23,7 @@ public class WishlistController {
     public ResponseEntity<WishlistDTO> toAdd(@PathVariable String id) {
 
         var wishlist = wishlistService.add(id);
+
         return ResponseEntity.ok().body(new WishlistDTO(wishlist));
     }
 
@@ -31,6 +32,7 @@ public class WishlistController {
     public ResponseEntity<WishlistDTO> delete(@PathVariable String id) {
 
         var wishlist = wishlistService.deleteById(id);
+
         return ResponseEntity.ok().body(new WishlistDTO(wishlist));
     }
 
@@ -38,6 +40,7 @@ public class WishlistController {
     public ResponseEntity<WishlistDTO> getAll() {
 
         var wishlist = wishlistService.getAll();
+
         return ResponseEntity.ok().body(new WishlistDTO(wishlist));
     }
 
@@ -45,6 +48,7 @@ public class WishlistController {
     public ResponseEntity<WishlistDTO> getById(@PathVariable String id) {
 
         var wishlist = wishlistService.getById(id);
+
         return ResponseEntity.ok().body(new WishlistDTO(wishlist));
     }
 }

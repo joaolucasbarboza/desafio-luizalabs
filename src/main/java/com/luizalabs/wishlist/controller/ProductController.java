@@ -17,9 +17,10 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping()
-    public ProductEntity addProduct(@RequestBody ProductEntity product) {
+    public ResponseEntity<ProductEntity> addProduct(@RequestBody ProductEntity product) {
 
+        ProductEntity productEntity = productService.add(product);
 
-        return this.productService.add(product);
+        return ResponseEntity.ok().body(productEntity);
     }
 }

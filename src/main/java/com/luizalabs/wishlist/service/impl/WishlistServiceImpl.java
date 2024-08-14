@@ -63,17 +63,20 @@ public class WishlistServiceImpl implements WishlistService {
 
     @Override
     public WishlistEntity getById(String productId) {
+
         var wishlist = wishlistExists();
 
         return productExistsOnWishlist(productId, wishlist);
     }
 
     public void productExistsOnWishlistException(String productId, WishlistEntity wishlist) {
+
         for (ProductEntity product : wishlist.getProductsId()) {
             if (product.getId().equals(productId)) {
                 throw new ExistsProductOnWishlistExeception();
             }
         }
+
     }
 
     public WishlistEntity productExistsOnWishlist(String productId, WishlistEntity wishlist) {
@@ -87,24 +90,27 @@ public class WishlistServiceImpl implements WishlistService {
         }
 
         wishlist.setProductsId(matchedProducts);
+
         return wishlist;
     }
 
     public WishlistEntity wishlistExists() {
-        return  wishlistRepository.findAll().stream().findFirst()
-                .orElseGet(() -> {
+        List<WishlistEntity> wishlists = wishlistRepository.findAll();
 
-                    WishlistEntity newWishlist = new WishlistEntity();
-                    wishlistRepository.save(newWishlist);
+        if (wishlists.isEmpty()) {
 
-                    return newWishlist;
-                });
+            WishlistEntity newWishlist = new WishlistEntity();
+            wishlistRepository.save(newWishlist);
+
+            return newWishlist;
+        } else {
+            return wishlists.getFirst();
+        }
     }
 
     protected ProductEntity findProductById(String productId) {
+
         return productRepository.findById(productId)
                 .orElseThrow(ProductNotFoundException::new);
     }
-
-
 }
