@@ -30,6 +30,12 @@ Se preferir executar a aplicação diretamente na máquina, certifique-se de ter
 
 ## Documentação da API
 
+### Swagger
+
+```
+{URL}/swagger-ui/index.html
+```
+
 ### Cria um produto
 
 Nesta aplicação, implementei o método POST Produto para facilitar os testes dos endpoints relacionados à Wishlist.
