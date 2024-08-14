@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class WishlistGetAllStep extends StepDefsDefault {
 
@@ -55,11 +54,9 @@ public class WishlistGetAllStep extends StepDefsDefault {
     private final List<ProductEntity> products = new ArrayList<>();
 
     @Dado("que existem produtos cadastrados na lista de desejos")
-    public void queExistemProdutosCadastradosNaListaDeDesejos(DataTable dataTable) {
-
+    public void givenProductsAreRegisteredInTheWishlist(DataTable dataTable) {
         for (Map<String, String> row : dataTable.asMaps(String.class, String.class)) {
             ProductEntity product = new ProductEntity();
-
             product.setId(row.get("id"));
             product.setName(row.get("name"));
 
@@ -71,20 +68,17 @@ public class WishlistGetAllStep extends StepDefsDefault {
     }
 
     @Quando("eu faço uma requisição do tipo GET para obter a lista de desejos")
-    public void euFacoUmaRequisicaoDoTipoGETParaObterAListaDeDesejos() throws URISyntaxException {
+    public void whenIMakeAGETRequestToObtainTheWishlist() throws URISyntaxException {
         response = testRestTemplate.getForEntity(new URI("/api/wishlist"), WishlistDTO.class);
     }
 
     @Entao("a resposta deve ser um status code {int}")
-    public void aRespostaDeveSerUmStatusCode(Integer statusCode) {
+    public void thenTheResponseShouldBeAStatusCode(Integer statusCode) {
         assertEquals(statusCode, response.getStatusCode().value());
     }
 
     @E("a resposta deve retornar a lista de desejos com os produtos cadastrados anteriormente")
-    public void aRespostaDeveConterOsProdutosDentroDaListaDeDesejosQueForamCadastradosPreviamente() {
-        WishlistDTO wishlistResponse = response.getBody();
-
-        assert Objects.requireNonNull(wishlistResponse).products() != null : "A lista de produtos é nula";
-        assertFalse(wishlistResponse.products().isEmpty());
+    public void andTheResponseShouldReturnTheWishlistWithPreviouslyRegisteredProducts() {
+        assertEquals(3, Objects.requireNonNull(response.getBody()).products().size());
     }
 }

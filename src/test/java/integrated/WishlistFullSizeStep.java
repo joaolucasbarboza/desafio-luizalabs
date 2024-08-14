@@ -55,7 +55,7 @@ public class WishlistFullSizeStep extends StepDefsDefault {
     private final List<ProductEntity> products = new ArrayList<>();
 
     @Dado("que a lista de desejos esteja cheia")
-    public void queAListaDeDesejosNaoEstejaCheia(DataTable dataTable) {
+    public void givenTheWishlistIsFull(DataTable dataTable) {
         for (Map<String, String> row : dataTable.asMaps(String.class, String.class)) {
             ProductEntity product = new ProductEntity();
 
@@ -70,22 +70,22 @@ public class WishlistFullSizeStep extends StepDefsDefault {
     }
 
     @Quando("eu faço uma requisição do tipo POST para adicionar um novo produto na Wishlist")
-    public void euFacoUmaRequisicaoDoTipoPostParaAdicionarUmProdutoNaWishlist() throws URISyntaxException {
+    public void whenIMakeAPOSTRequestToAddANewProductToTheWishlist() throws URISyntaxException {
 
         ProductEntity newProduct = new ProductEntity("66bbb8f66990481657a3e64", "Mesa gamer");
 
         productService.add(newProduct);
 
-        response = testRestTemplate.postForEntity(new URI("/api/wishlist/" + newProduct.getId()), null,  WishlistFullSizeException.class);
+        response = testRestTemplate.postForEntity(new URI("/api/wishlist/" + newProduct.getId()), null, WishlistFullSizeException.class);
     }
 
     @Entao("a resposta deverá ser uma exceção de lista cheia")
-    public void aRespostaDeveraSerUmStatusCode() {
+    public void thenTheResponseShouldBeAWishlistFullSizeException() {
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
     }
 
     @E("a resposta deve conter uma mensagem de erro informando que a lista de desejos está cheia")
-    public void aRespostaDeveConterUmaMensagemDeErroInformandoQueAWishlistEstaCheia() {
+    public void andTheResponseShouldContainAnErrorMessageIndicatingThatTheWishlistIsFull() {
         var errorResponse = response.getBody();
 
         assert errorResponse != null;

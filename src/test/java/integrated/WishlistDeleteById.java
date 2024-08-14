@@ -1,8 +1,6 @@
 package integrated;
 
 import com.luizalabs.wishlist.entity.ProductEntity;
-import com.luizalabs.wishlist.repository.ProductRepository;
-import com.luizalabs.wishlist.repository.WishlistRepository;
 import com.luizalabs.wishlist.response.WishlistDTO;
 import com.luizalabs.wishlist.service.ProductService;
 import com.luizalabs.wishlist.service.WishlistService;
@@ -26,7 +24,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class WishlistDeleteById extends StepDefsDefault {
 
@@ -34,23 +31,17 @@ public class WishlistDeleteById extends StepDefsDefault {
     private TestRestTemplate testRestTemplate;
 
     @Autowired
-    private WishlistRepository wishlistRepository;
-
-    @Autowired
     private WishlistService wishlistService;
 
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private ProductRepository productRepository;
 
     private ResponseEntity<WishlistDTO> response;
 
     private final List<ProductEntity> products = new ArrayList<>();
 
     @Dado("que existem produtos cadastrados na Wishlist")
-    public void queExistemProdutosCadastradosNaListaDeProdutos(DataTable dataTable) {
+    public void givenProductsAreRegisteredInTheWishlist(DataTable dataTable) {
         for (Map<String, String> row : dataTable.asMaps(String.class, String.class)) {
             ProductEntity product = new ProductEntity();
 
@@ -65,7 +56,7 @@ public class WishlistDeleteById extends StepDefsDefault {
     }
 
     @Quando("eu faço uma requisição do tipo DELETE para remover o produto com id da Wishlist")
-    public void euFacoUmaRequisiçãoDoTipoDELETEParaRemoverOProdutoComIdDaWihist() throws URISyntaxException {
+    public void whenIMakeADELETERequestToRemoveTheProductByIdFromTheWishlist() throws URISyntaxException {
 
         String productId = "66bbb8f66990481657a3e76p";
 
@@ -78,13 +69,12 @@ public class WishlistDeleteById extends StepDefsDefault {
     }
 
     @Entao("a resposta deve confirmar que o produto foi removido da Wishlist")
-    public void aRespostaDeveConfirmarQueOProdutoFoiRemovidoDaWishlist() {
+    public void thenTheResponseShouldConfirmThatTheProductWasRemovedFromTheWishlist() {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @E("o retorno deve confirmar que a quantidade de produtos na Wishlist foi atualizada corretamente")
-    public void aRespostaDeveConfirmarQueAQuantidadeDeProdutosNaWishlistFoiAtualizadaCorretamente() {
-
+    public void andTheResponseShouldConfirmThatTheQuantityOfProductsInTheWishlistWasUpdatedCorrectly() {
         assertEquals(2, Objects.requireNonNull(response.getBody()).products().size());
     }
 }
