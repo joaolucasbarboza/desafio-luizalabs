@@ -24,6 +24,7 @@ class ProductServiceTest {
     @Test
     @DisplayName("Deve cadastrar um produto com sucesso.")
     void createProduct() {
+
         ProductEntity product = new ProductEntity("product1", "Name product 1");
 
         productService.add(product);
